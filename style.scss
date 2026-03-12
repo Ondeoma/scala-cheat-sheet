@@ -1,0 +1,59 @@
+body {
+  background-color: #313448;
+  color: #eeeeee;
+}
+
+h1 {
+  border-bottom: 1px solid;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  
+  th, td {
+    border: 1px solid gray;
+    padding: 10px;
+    text-align: center;
+    
+    &.description {
+      text-align: left;
+    }
+  }
+  
+  th {
+    background-color: #332289;
+  }
+  
+  img {
+    padding: 10px;
+    max-height: 200px;
+    max-width: 200px;
+  }
+  
+  .tags {
+    
+    div{
+      display: flex;
+      gap: 10px;
+    }
+    
+    .tag {
+      display: inline-block;
+      font-size: 0.8em;
+      padding: 4px;
+      border-radius: 10px;
+      
+      &.info {
+        background-color: #036640;
+      }
+      
+      &.danger {
+        background-color: #9d0d31;
+      }
+      
+    }
+    
+  }
+  
+}
