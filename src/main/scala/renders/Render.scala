@@ -12,6 +12,12 @@ object Render {
     // language=html
     s"""
        |<h1>Scala Cheat Sheet</h1>
+       |<h2 id="functions">See also</h2>
+       |<ul>
+       |  <li>
+       |    <a href="https://docs.scala-lang.org/ja/cheatsheets/index.html">Scala Cheatsheet | Scala Documentation</a>
+       |  </li>
+       |</ul>
        |<h2 id="functions">Functions</h2>
        |<h3 id="functions-list">List[A]</h3>
        |$functionTable
