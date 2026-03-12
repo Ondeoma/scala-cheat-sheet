@@ -4,7 +4,8 @@ import models.*
 
 object Render {
 
-  val imgPath = "/img"
+  lazy val basePath = "/scala-cheat-sheet"
+  lazy val imgPath = s"$basePath/img"
 
   def all(fis: List[FunctionInfo]): String = {
     val functionTable = renderFunctionsTable(fis)

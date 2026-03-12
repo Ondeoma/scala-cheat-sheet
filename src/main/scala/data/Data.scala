@@ -1,10 +1,11 @@
 package data
 
 import models.*
+import renders.Render
 
 object Data {
 
-  def listImg(s: String) = s"/img/functions/list/$s"
+  def listImg(s: String) = s"${Render.imgPath}/functions/list/$s"
 
   def infoT(s: String) = Tag(s, "info")
 
