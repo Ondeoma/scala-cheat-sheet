@@ -31,8 +31,8 @@ table {
   
   img {
     padding: 10px;
-    max-height: 180px;
-    max-width: 500px;
+    max-height: 150px;
+    max-width: 450px;
   }
   
   .tags {
@@ -50,6 +50,10 @@ table {
       
       &.info {
         background-color: #036640;
+      }
+
+      &.warn {
+        background-color: #897f00;
       }
       
       &.danger {

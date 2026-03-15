@@ -23,7 +23,7 @@ object Render {
        |$functionTable
        |""".stripMargin
   }
-  
+
   def renderFunctionsTable(fis: List[FunctionInfo]): String = {
     val rows = fis.map(renderFunctionRow).mkString("")
     // language=html
@@ -61,14 +61,14 @@ object Render {
        |</tr>
        |""".stripMargin
   }
-  
+
   def renderTypArgs(ts: List[String]): String = {
     if (ts.isEmpty) ""
     else ts.mkString("[", ", ", "]")
   }
-  
-  def renderArgs(tis: List[TypeInfo]): String = {
-    tis.map(ti => s"${ti.name}: ${ti.typ}").mkString("(", ", ", ")")
+
+  def renderArgs(tis: Option[List[TypeInfo]]): String = {
+    tis.fold("")(_.map(ti => s"${ti.name}: ${ti.typ}").mkString("(", ", ", ")"))
   }
 
   def renderImg(src: String): String = {

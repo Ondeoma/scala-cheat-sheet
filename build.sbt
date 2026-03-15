@@ -10,5 +10,8 @@ lazy val scs: Project = project.in(file("."))
         .withModuleSplitStyle(
           ModuleSplitStyle.SmallModulesFor(List("scs")))
     },
-    libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "2.8.1",
+    libraryDependencies ++= Seq(
+      "org.scala-js" %%% "scalajs-dom" % "2.8.1",
+      "org.typelevel" %%% "cats-core" % "2.9.0",
+    )
   )
