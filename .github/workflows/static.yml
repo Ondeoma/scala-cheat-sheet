@@ -28,7 +28,9 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
-          cache: sbt               
+          cache: sbt           
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1          
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
