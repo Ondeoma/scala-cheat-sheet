@@ -26,7 +26,7 @@ object Data {
 
     val FNonA = FunctionInfo.noArg
     val F1A = FunctionInfo.oneArg
-    val FNN = FunctionInfo.nArg
+    val FNA = FunctionInfo.nArg
     val FI1A = FunctionInfo.impArg
     val FINN = FunctionInfo.impNArg
     val T = TypeInfo.apply
@@ -50,7 +50,7 @@ object Data {
       F1A("List", "dropRight", Nil, T("n", "Int"), "List[A]", listImg("dropRight.svg"), List(infoT("部分取得")), "末尾からn件削除したListを取得.<br>不足時はNil."),
       F1A("List", "dropWhile", Nil, T("p", "A => Boolean"), "List[A]", listImg("dropWhile.svg"), List(infoT("部分取得")), "先頭からpの結果がfalseになるところまで削除したListを取得."),
 
-      FNN("List", "slice", Nil, List(T("from", "Int"), T("until", "Int")), "List[A]", listImg("slice.svg"), List(infoT("部分取得")), "from ~ (until - 1)番目を取得.<br>範囲外は無視.<br>from >= untilの場合はNil."),
+      FNA("List", "slice", Nil, List(T("from", "Int"), T("until", "Int")), "List[A]", listImg("slice.svg"), List(infoT("部分取得")), "from ~ (until - 1)番目を取得.<br>範囲外は無視.<br>from >= untilの場合はNil."),
       F1A("List", "splitAt", Nil, T("n", "Int"), "(List[A], List[A])", listImg("splitAt.svg"), List(infoT("分割")), "n番目以降で分割.<br>不足時は存在するところまでとNilで分割."),
       F1A("List", "span", Nil, T("p", "A => Boolean"), "(List[A], List[A])", listImg("span.svg"), List(infoT("分割")), "pの結果がfalseになる要素以降で分割.<br>全てtrueの場合は全てとNilで分割"),
 
@@ -76,7 +76,6 @@ object Data {
       FI1A("List", "flatten", List("B"), T("toIterableOnce", "A => IterableOnce[B]"), "List[B]", listImg("flatten.svg"), List(infoT("変換")), "List[IterableOnce[B]]をList[B]に変換.<br>図はList[List[B]]のイメージ.<br>IterableOnceは大まかにコレクション型やOption型等と捉えると良さそうです。"),
       F1A("List", "flatMap", List("B"), T("f", "A => IterableOnce[B]"), "List[B]", listImg("flatMap.svg"), List(infoT("変換"), infoT("モナド")), "全ての値をfで変換しflattenまで行います.<br>fはIterableOnce[B]を返す関数である必要があります.<br>図はList[List[B]]に変換されてflattenされるイメージ.<br>IterableOnceは大まかにコレクション型やOption型等と捉えると良さそうです"),
 
-
       FNonA("List", "reverse", Nil, "List[A]", listImg("reverse.svg"), List(infoT("並び替え")), "順番を反転する."),
       FI1A("List", "sorted", List("[B >: A]"), T("ord", "Ordering[B]"), "List[B]", listImg("sorted.svg"), List(infoT("並び替え")), "昇順に並び替える."),
       FunctionInfo("List", "sortBy", List("[B >: A]"),
@@ -84,6 +83,21 @@ object Data {
           ArgsInfo(List(T("ord", "Ordering[B]")), true)),
         "List[B]", listImg("sortBy.svg"), List(infoT("並び替え")), "fで変換した値で昇順に並び替える."),
       F1A("List", "sortWith", Nil, T("lt", "(A, A) => Boolean"), "List[A]", listImg("sortWith.svg"), List(infoT("並び替え")), "隣り合う要素でfを実行した時に常にtrueになるように並び替える."),
+
+
+      F1A("List", "reduce<br>(reduceLeft)", List("B >: A"), T("op", "(B, A) => B"), "B", listImg("reduce.svg"), List(dangerT("例外"), infoT("畳み込み")), "先頭から末尾までを順次、<br>opで演算した結果とその次の要素をopで演算する.<br>Nilの場合は例外."),
+      F1A("List", "reduceOption<br>(reduceLeftOption)", List("B >: A"), T("op", "(B, A) => B"), "Option[B]", listImg("reduceOption.svg"), List(infoT("畳み込み")), "先頭から末尾までを順次、<br>opで演算した結果とその次の要素をopで演算する.<br>Nilの場合はNone."),
+      F1A("List", "reduceRight", List("B >: A"), T("op", "(B, A) => B"), "B", listImg("reduceRight.svg"), List(dangerT("例外"), infoT("畳み込み")), "末尾から先頭までを順次、<br>opで演算した結果とその前の要素をopで演算する.<br>Nilの場合は例外."),
+      F1A("List", "reduceRightOption", List("B >: A"), T("op", "(B, A) => B"), "Option[B]", listImg("reduceRightOption.svg"), List(infoT("畳み込み")), "末尾から先頭までを順次、<br>opで演算した結果とその前の要素をopで演算する.<br>Nilの場合はNone."),
+      FunctionInfo("List", "fold<br>(foldLeft)", List("B >: A"),
+        List(ArgsInfo(List(T("z", "B")), false),
+          ArgsInfo(List(T("op", "(B, A) => B")), false)),
+        "B", listImg("fold.svg"), List(infoT("畳み込み")), "先頭から末尾までを順次、<br>opで演算した結果とその次の要素をopで演算する.<br>ただし先頭値にはzを利用."),
+      FunctionInfo("List", "foldRight", List("B >: A"),
+        List(ArgsInfo(List(T("z", "B")), false),
+          ArgsInfo(List(T("op", "(B, A) => B")), false)),
+        "B", listImg("foldRight.svg"), List(infoT("畳み込み")), "末尾から先頭までを順次、<br>opで演算した結果とその次の要素をopで演算する.<br>ただし末尾値にはzを利用."),
+
     )
   }
 
