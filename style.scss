@@ -31,8 +31,20 @@ table {
   
   img {
     padding: 10px;
-    max-height: 150px;
-    max-width: 450px;
+    max-height: 250px;
+    max-width: 400px;
+  }
+  
+  .typArgs {
+    white-space: nowrap;
+  }
+
+  .args {
+    white-space: nowrap;
+  }
+  
+  .implicit {
+    color: #b0ae6e;
   }
   
   .tags {

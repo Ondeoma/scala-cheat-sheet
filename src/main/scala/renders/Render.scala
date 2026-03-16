@@ -67,8 +67,12 @@ object Render {
     else ts.mkString("[", ", ", "]")
   }
 
-  def renderArgs(tis: Option[List[TypeInfo]]): String = {
-    tis.fold("")(_.map(ti => s"${ti.name}: ${ti.typ}").mkString("(", ", ", ")"))
+  def renderArgs(tis: List[ArgsInfo]): String = {
+    tis.map { a =>
+      val tis = a.tis.map(ti => s"${ti.name}: ${ti.typ}")
+      val prefix = if (a.`implicit`) s"""<span class="args implicit">(implicit """ else """<span class="args">("""
+      tis.mkString(prefix, ", ", ")</span>")
+    }.mkString("<br>")
   }
 
   def renderImg(src: String): String = {
