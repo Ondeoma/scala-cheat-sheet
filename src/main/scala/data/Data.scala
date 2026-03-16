@@ -97,7 +97,34 @@ object Data {
         List(ArgsInfo(List(T("z", "B")), false),
           ArgsInfo(List(T("op", "(B, A) => B")), false)),
         "B", listImg("foldRight.svg"), List(infoT("畳み込み")), "末尾から先頭までを順次、<br>opで演算した結果とその次の要素をopで演算する.<br>ただし末尾値にはzを利用."),
+      FI1A("List", "sum", List("B >: A"), T("num", "Numeric[B]"), "B", listImg("sum.svg"), List(infoT("畳み込み")), "合計値.<br>Nilの場合は0."),
 
+      F1A("List", "contains", List("A1 >: A"), T("elem", "A1"), "Boolean", listImg("contains.svg"), List(infoT("存在確認")), "elemが存在すればtrue."),
+      F1A("List", "exists", Nil, T("p", "A => Boolean"), "Boolean", listImg("exists.svg"), List(infoT("存在確認")), "pがtrueになる要素が存在すればtrue."),
+      F1A("List", "forall", Nil, T("p", "A => Boolean"), "Boolean", listImg("forall.svg"), List(infoT("全要素確認")), "pがtrueになる要素のみであればtrue.<br>Nilの場合はtrue."),
+
+      FI1A("List", "min", List("B >: A"), T("ord", "Ordering[B]"), "B", listImg("min.svg"), List(dangerT("例外"), infoT("最小値"), infoT("1つ取得")), "最小値.<br>Nilの場合は例外."),
+      FI1A("List", "minOption", List("B >: A"), T("ord", "Ordering[B]"), "Option[B]", listImg("minOption.svg"), List(infoT("最小値"), infoT("1つ取得")), "最小値.<br>Nilの場合はNone."),
+      FunctionInfo("List", "minBy", List("B"),
+        List(ArgsInfo(List(T("f", "A => B")), false),
+          ArgsInfo(List(T("ord", "Ordering[B]")), false)),
+        "B", listImg("minBy.svg"), List(dangerT("例外"), infoT("最小値"), infoT("1つ取得")), "最小値.<br>Nilの場合は例外."),
+      FunctionInfo("List", "minByOption", List("B"),
+        List(ArgsInfo(List(T("f", "A => B")), false),
+          ArgsInfo(List(T("ord", "Ordering[B]")), false)),
+        "Option[B]", listImg("minByOption.svg"), List(infoT("最小値"), infoT("1つ取得")), "最小値.<br>Nilの場合はNone."),
+
+      FI1A("List", "max", List("B >: A"), T("ord", "Ordering[B]"), "B", listImg("max.svg"), List(dangerT("例外"), infoT("最大値"), infoT("1つ取得")), "最大値.<br>Nilの場合は例外."),
+      FI1A("List", "maxOption", List("B >: A"), T("ord", "Ordering[B]"), "Option[B]", listImg("maxOption.svg"), List(infoT("最大値"), infoT("1つ取得")), "最大値.<br>Nilの場合はNone."),
+      FunctionInfo("List", "maxBy", List("B"),
+        List(ArgsInfo(List(T("f", "A => B")), false),
+          ArgsInfo(List(T("ord", "Ordering[B]")), false)),
+        "B", listImg("maxBy.svg"), List(dangerT("例外"), infoT("最大値"), infoT("1つ取得")), "最大値.<br>Nilの場合は例外."),
+      FunctionInfo("List", "maxByOption", List("B"),
+        List(ArgsInfo(List(T("f", "A => B")), false),
+          ArgsInfo(List(T("ord", "Ordering[B]")), false)),
+        "Option[B]", listImg("maxByOption.svg"), List(infoT("最大値"), infoT("1つ取得")), "最大値.<br>Nilの場合はNone."),
+      
     )
   }
 
