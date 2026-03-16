@@ -65,17 +65,21 @@ object Data {
 
       F1A("List", "::", List("B >: A"), T("elem", "B"), "List[B]", listImg("cc.svg"), List(warnT("右結合"), infoT("連結")), "先頭に要素を追加したものを取得."),
       F1A("List", ":::", List("B >: A"), T("prefix", "List[B]"), "List[B]", listImg("ccc.svg"), List(warnT("右結合"), infoT("連結")), "List同士を連結したものを取得."),
-
+      
       FNonA("List", "isEmpty", Nil, "Boolean", listImg("isEmpty.svg"), List(infoT("状況取得")), "要素があればfalse, Nilならtrue."),
       FNonA("List", "nonEmpty", Nil, "Boolean", listImg("nonEmpty.svg"), List(infoT("状況取得")), "要素があればtrue, Nilならfalse."),
       FNonA("List", "length", Nil, "Int", listImg("length.svg"), List(infoT("状況取得")), "要素数."),
 
       F1A("List", "foreach", List("U"), T("f", "A => U"), "Unit", listImg("foreach.svg"), List(infoT("作用")), "全ての値で順にfを実行."),
 
-      F1A("List", "map", List("B"), T("f", "A => B"), "List[B]", listImg("map.svg"), List(infoT("高階維持"), infoT("変換")), "全ての値をfで変換."),
+      F1A("List", "map", List("B"), T("that", "A => B"), "List[B]", listImg("map.svg"), List(infoT("変換")), "全ての値をfで変換."),
       FI1A("List", "flatten", List("B"), T("toIterableOnce", "A => IterableOnce[B]"), "List[B]", listImg("flatten.svg"), List(infoT("変換")), "List[IterableOnce[B]]をList[B]に変換.<br>図はList[List[B]]のイメージ.<br>IterableOnceは大まかにコレクション型やOption型等と捉えると良さそうです。"),
       F1A("List", "flatMap", List("B"), T("f", "A => IterableOnce[B]"), "List[B]", listImg("flatMap.svg"), List(infoT("変換"), infoT("モナド")), "全ての値をfで変換しflattenまで行います.<br>fはIterableOnce[B]を返す関数である必要があります.<br>図はList[List[B]]に変換されてflattenされるイメージ.<br>IterableOnceは大まかにコレクション型やOption型等と捉えると良さそうです"),
 
+      F1A("List", "zip", List("B"), T("that", "IterableOnce[B]"), "List[(A, B)]", listImg("zip.svg"), List(infoT("結合")), "thatコレクションと同順に1つずつタプル化.<br>少ない側の要素数に揃う."),
+      FNonA("List", "zipWithIndex", Nil, "List[(A, Int)]", listImg("zipWithIndex.svg"), List(infoT("結合")), "Indexとタプル化."),
+      FI1A("List", "unzip", List("A1","A2"), T("asPair", "A = (A1, A2)"), "(List[A1], List[A2])", listImg("unzip.svg"), List(infoT("分解")), "主に2要素タプルのListを分割した2つのListを取得."),
+      
       FNonA("List", "reverse", Nil, "List[A]", listImg("reverse.svg"), List(infoT("並び替え")), "順番を反転する."),
       FI1A("List", "sorted", List("[B >: A]"), T("ord", "Ordering[B]"), "List[B]", listImg("sorted.svg"), List(infoT("並び替え")), "昇順に並び替える."),
       FunctionInfo("List", "sortBy", List("[B >: A]"),
