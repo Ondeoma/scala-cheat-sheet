@@ -122,6 +122,6 @@ input, select {
 
 }
 
-.vh100 {
-  height: 100vh;
+.vh100minus200px {
+  height: calc(100vh - 200px);
 }

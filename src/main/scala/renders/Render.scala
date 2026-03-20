@@ -40,7 +40,7 @@ object Render {
          |<h3 id="functions-list">List[A]</h3>
          |$listFunctionSearch
          |$listFunctionTable
-         |<div class="vh100"></div>
+         |<div class="vh100minus200px"></div>
          |""".stripMargin
 
     val onLoadedFunctions: List[() => Unit] = List(
