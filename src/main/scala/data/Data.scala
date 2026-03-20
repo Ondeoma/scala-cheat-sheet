@@ -51,6 +51,10 @@ object Data {
       F1A(G.List, "span", Nil, T("p", "A => Boolean"), "(List[A], List[A])", listImg("span.svg"), List(infoT("分割")), "pの結果がfalseになる要素以降で分割.<br>全てtrueの場合は全てとNilで分割"),
       F1A(G.List, "sliding", Nil, T("size", "Int"), "Iterator(List[A])", listImg("sliding.svg"), List(infoT("部分集合")), "1つずつ移動しながらsize個取得したList群."),
       FNA(G.List, "sliding", Nil, List(T("size", "Int"), T("step", "Int")), "Iterator(List[A])", listImg("sliding(2).svg"), List(infoT("部分集合")), "stepずつ移動しながらsize個取得したList群.."),
+
+      F1A(G.List, "combinations", Nil, T("n", "Int"), "Iterator[List[A]]", listImg("combinations.svg"), List(infoT("組合せ")), "n個ずつ分けた場合の全組合せ.<br>順番違いは含めない.<br>同値は区別しない."),
+      FNonA(G.List, "permutations", Nil, "Iterator[List[A]]", listImg("permutations.svg"), List(infoT("組合せ")), "全並び順.<br>同値は区別しない"),
+      
       F1A(G.List, "partition", Nil, T("p", "A => Boolean"), "(List[A], List[A])", listImg("partition.svg"), List(infoT("分割")), "pの結果によって分割(true = 左)."),
       F1A(G.List, "partitionMap", List("A1", "A2"), T("p", "A => Either[A1, A2]"), "(List[A1], List[A2])", listImg("partitionMap.svg"), List(infoT("分割")), "pを適用したEither型の状態によって分割(Left = 左).<br>結果のList内の要素はUnwrapされる."),
       
@@ -100,16 +104,19 @@ object Data {
       F1A(G.List, "foreach", List("U"), T("f", "A => U"), "Unit", listImg("foreach.svg"), List(infoT("作用")), "全ての値で順にfを実行."),
       F1A(G.List, "tapEach", List("U"), T("f", "A => U"), "List[A]", listImg("tapEach.svg"), List(infoT("作用")), "全ての値で順にfを実行し元値をreturn."),
 
-      F1A(G.List, "map", List("B"), T("that", "A => B"), "List[B]", listImg("map.svg"), List(infoT("変換")), "全ての値をfで変換."),
+      F1A(G.List, "map", List("B"), T("f", "A => B"), "List[B]", listImg("map.svg"), List(infoT("変換")), "全ての値をfで変換."),
+      F1A(G.List, "mapConserve", List("B >: A <: AnyRef"), T("f", "A => B"), "List[B]", listImg("map.svg"), List(infoT("変換")), "全ての値をfで変換.<br>ただし変換後、全て同じ値の場合は元のListをそのまま返す."),
       FI1A(G.List, "flatten", List("B"), T("toIterableOnce", "A => IterableOnce[B]"), "List[B]", listImg("flatten.svg"), List(infoT("変換")), "List[IterableOnce[B]]をList[B]に変換.<br>図はList[List[B]]のイメージ.<br>IterableOnceは大まかにコレクション型やOption型等と捉えると良さそうです。"),
       F1A(G.List, "flatMap", List("B"), T("f", "A => IterableOnce[B]"), "List[B]", listImg("flatMap.svg"), List(infoT("変換"), infoT("モナド")), "全ての値をfで変換しflattenまで行います.<br>fはIterableOnce[B]を返す関数である必要があります.<br>図はList[List[B]]に変換されてflattenされるイメージ.<br>IterableOnceは大まかにコレクション型やOption型等と捉えると良さそうです"),
       FI1A(G.List, "transpose", List("B"), T("asIterable", "A => Iterable[B]"), "List[List[B]]", listImg("transpose.svg"), List(dangerT("例外"), infoT("変換")), "行列を入れ替える.<br>要素数に差があると例外."),
       
       F1A(G.List, "zip", List("B"), T("that", "IterableOnce[B]"), "List[(A, B)]", listImg("zip.svg"), List(infoT("結合")), "thatコレクションと同順に1つずつタプル化.<br>少ない側の要素数に揃う."),
+      FNA(G.List, "zipAll", List("A1 <: A", "B"), List(T("that", "Iterable[B]"), T("thisElem", "A1"), T("thatElem", "B")), "List[(A1, B)]", listImg("zipAll.svg"), List(infoT("結合")), "thatコレクションと同順に1つずつタプル化.<br>thisが少ない場合はthisElem, thatが少ない場合はthatElemで補う."),
       F1A(G.List, "lazyZip", List("B"), T("that", "Iterable[B]"), "LazyZip2[(A, B, List[A])]", listImg("zip.svg"), List(infoT("結合"), infoT("遅延")), "thatコレクションと同順に1つずつタプル化.<br>少ない側の要素数に揃う.<br>LazyZip返却版."),
       FNonA(G.List, "zipWithIndex", Nil, "List[(A, Int)]", listImg("zipWithIndex.svg"), List(infoT("結合")), "Indexとタプル化."),
       FNonA(G.List, "indices", Nil, "List[Int]", listImg("indices.svg"), List(infoT("変換"), infoT("Index")), "全要素のIndexをListとして取得."),
-      FI1A(G.List, "unzip", List("A1","A2"), T("asPair", "A = (A1, A2)"), "(List[A1], List[A2])", listImg("unzip.svg"), List(infoT("分配")), "主に2要素タプルのListを分割した2つのListを取得."),
+      FI1A(G.List, "unzip", List("A1","A2"), T("asPair", "A = (A1, A2)"), "(List[A1], List[A2])", listImg("unzip.svg"), List(infoT("分配")), "2要素タプルのListを分割した2つのListを取得."),
+      FI1A(G.List, "unzip3", List("A1","A2", "A3"), T("asTriple", "A = (A1, A2, A3)"), "(List[A1], List[A2], List[A3])", listImg("unzip3.svg"), List(infoT("分配")), "3要素タプルのListを分割した3つのListを取得."),
       
       FNonA(G.List, "reverse", Nil, "List[A]", listImg("reverse.svg"), List(infoT("並び替え")), "順番を反転する."),
       FI1A(G.List, "sorted", List("B >: A"), T("ord", "Ordering[B]"), "List[B]", listImg("sorted.svg"), List(infoT("並び替え")), "昇順に並び替える."),
@@ -196,13 +203,8 @@ object Data {
 
 
       // TODO?
-      // zipAll
-      // unzip3
-      // withFilter
       // sameElements
-      // combinations
-      // permutations
-      // mapConserve
+      // withFilter
       // reverse_:::
       // sizeIs
       // etc?
