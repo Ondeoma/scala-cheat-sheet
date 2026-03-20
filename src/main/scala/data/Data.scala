@@ -53,7 +53,9 @@ object Data {
       FNA("List", "slice", Nil, List(T("from", "Int"), T("until", "Int")), "List[A]", listImg("slice.svg"), List(infoT("部分取得")), "from ~ (until - 1)番目を取得.<br>範囲外は無視.<br>from >= untilの場合はNil."),
       F1A("List", "splitAt", Nil, T("n", "Int"), "(List[A], List[A])", listImg("splitAt.svg"), List(infoT("分割")), "n番目以降で分割.<br>不足時は存在するところまでとNilで分割."),
       F1A("List", "span", Nil, T("p", "A => Boolean"), "(List[A], List[A])", listImg("span.svg"), List(infoT("分割")), "pの結果がfalseになる要素以降で分割.<br>全てtrueの場合は全てとNilで分割"),
-
+      F1A("List", "partition", Nil, T("p", "A => Boolean"), "(List[A], List[A])", listImg("partition.svg"), List(infoT("分割")), "pの結果によって分割(true = 左)."),
+      F1A("List", "partitionMap", List("A1", "A2"), T("p", "A => Either[A1, A2]"), "(List[A1], List[A2])", listImg("partitionMap.svg"), List(infoT("分割")), "pを適用したEither型の状態によって分割(Left = 左).<br>結果のList内の要素はUnwrapされる."),
+      
       F1A("List", "filter", Nil, T("p", "A => Boolean"), "List[A]", listImg("filter.svg"), List(infoT("絞り込み")), "pがtrueになる要素を取得."),
       F1A("List", "filterNot", Nil, T("p", "A => Boolean"), "List[A]", listImg("filterNot.svg"), List(infoT("絞り込み")), "pがfalseになる要素を取得."),
 
@@ -63,13 +65,28 @@ object Data {
       F1A("List", "find", Nil, T("p", "A => Boolean"), "Option[A]", listImg("find.svg"), List(infoT("1つ取得"), infoT("検索")), "先頭からpがtrueになった最初の要素を取得.<br>見つからなかった場合はNone."),
       F1A("List", "findLast", Nil, T("p", "A => Boolean"), "Option[A]", listImg("findLast.svg"), List(infoT("1つ取得"), infoT("検索")), "末尾からpがtrueになった最初の要素を取得.<br>見つからなかった場合はNone."),
 
+      F1A("List", "indexOf", List("B >: A"), T("elem", "B"), "Int", listImg("indexOf.svg"), List(infoT("Index取得"), infoT("検索")), "elemと等価な最初の要素のIndexを取得.<br>見つからなかった場合は-1."),
+      FNA("List", "indexOf", List("B >: A"), List(T("elem", "B"), T("from", "Int")), "Int", listImg("indexOf(from).svg"), List(infoT("Index取得"), infoT("検索")), "from番目以降のelemと等価な最初の要素のIndexを取得.<br>見つからなかった場合は-1."),
+      F1A("List", "indexWhere", Nil, T("p", "A => Boolean"), "Int", listImg("indexWhere.svg"), List(infoT("Index取得"), infoT("検索")), "pがtrueになった最初の要素ｎIndexを取得.<br>見つからなかった場合は-1."),
+      FNA("List", "indexWhere", Nil, List(T("p", "A => Boolean"), T("from", "Int")), "Int", listImg("indexWhere(from).svg"), List(infoT("Index取得"), infoT("検索")), "from番目以降のpがtrueになった最初の要素ｎIndexを取得.<br>見つからなかった場合は-1."),
+      F1A("List", "indexOfSlice", List("B >: A"), T("that", "Seq[B]"), "Int", listImg("indexOfSlice.svg"), List(infoT("Index取得"), infoT("検索")), "thatと等価になる要素群の開始Indexを取得.<br>見つからなかった場合は-1."),
+      FNA("List", "indexOfSlice", List("B >: A"), List(T("that", "Seq[B]"), T("from", "Int")), "Int", listImg("indexOfSlice(from).svg"), List(infoT("Index取得"), infoT("検索")), "from番目以降のthatと等価になる要素群の開始Indexを取得.<br>見つからなかった場合は-1."),
+      
+      F1A("List", "lastIndexOf", List("B >: A"), T("elem", "B"), "Int", listImg("lastIndexOf.svg"), List(infoT("Index取得"), infoT("検索")), "末尾方向から探してelemと等価な最初の要素のIndexを取得.<br>見つからなかった場合は-1."),
+      FNA("List", "lastIndexOf", List("B >: A"), List(T("elem", "B"), T("end", "Int")), "Int", listImg("lastIndexOf(end).svg"), List(infoT("Index取得"), infoT("検索")), "end番目以前の末尾方向から探してelemと等価な最初の要素のIndexを取得.<br>見つからなかった場合は-1."),
+      F1A("List", "lastIndexWhere", Nil, T("p", "A => Boolean"), "Int", listImg("lastIndexWhere.svg"), List(infoT("Index取得"), infoT("検索")), "末尾方向から探してpがtrueになった最初の要素Indexを取得.<br>見つからなかった場合は-1."),
+      FNA("List", "lastIndexWhere", Nil, List(T("p", "A => Boolean"), T("end", "Int")), "Int", listImg("lastIndexWhere(end).svg"), List(infoT("Index取得"), infoT("検索")), "end番目以前の末尾方向から探してpがtrueになった最初の要素Indexを取得.<br>見つからなかった場合は-1."),
+      F1A("List", "lastIndexOfSlice", List("B >: A"), T("that", "Seq[B]"), "Int", listImg("lastIndexOfSlice.svg"), List(infoT("Index取得"), infoT("検索")), "末尾方向から探してthatと等価になる要素群の開始Indexを取得.<br>見つからなかった場合は-1."),
+      FNA("List", "lastIndexOfSlice", List("B >: A"), List(T("that", "Seq[B]"), T("end", "Int")), "Int", listImg("lastIndexOfSlice(end).svg"), List(infoT("Index取得"), infoT("検索")), "end番目以前の末尾方向から探してthatと等価になる要素群の開始Indexを取得.<br>見つからなかった場合は-1."),
+      
       F1A("List", "::", List("B >: A"), T("elem", "B"), "List[B]", listImg("cc.svg"), List(warnT("右結合"), infoT("連結")), "先頭に要素を追加したものを取得."),
       F1A("List", ":::", List("B >: A"), T("prefix", "List[B]"), "List[B]", listImg("ccc.svg"), List(warnT("右結合"), infoT("連結")), "List同士を連結したものを取得."),
       
       FNonA("List", "isEmpty", Nil, "Boolean", listImg("isEmpty.svg"), List(infoT("状況取得")), "要素があればfalse, Nilならtrue."),
       FNonA("List", "nonEmpty", Nil, "Boolean", listImg("nonEmpty.svg"), List(infoT("状況取得")), "要素があればtrue, Nilならfalse."),
-      FNonA("List", "length", Nil, "Int", listImg("length.svg"), List(infoT("状況取得")), "要素数."),
-
+      FNonA("List", "length<br>(size)", Nil, "Int", listImg("length.svg"), List(infoT("状況取得")), "要素数."),
+      F1A("List", "count", Nil, T("p", "A => Boolean"), "Boolean", listImg("count.svg"), List(infoT("件数取得")), "pの結果がtrueになる要素数."),
+      
       F1A("List", "foreach", List("U"), T("f", "A => U"), "Unit", listImg("foreach.svg"), List(infoT("作用")), "全ての値で順にfを実行."),
 
       F1A("List", "map", List("B"), T("that", "A => B"), "List[B]", listImg("map.svg"), List(infoT("変換")), "全ての値をfで変換."),
@@ -87,8 +104,7 @@ object Data {
           ArgsInfo(List(T("ord", "Ordering[B]")), true)),
         "List[B]", listImg("sortBy.svg"), List(infoT("並び替え")), "fで変換した値で昇順に並び替える."),
       F1A("List", "sortWith", Nil, T("lt", "(A, A) => Boolean"), "List[A]", listImg("sortWith.svg"), List(infoT("並び替え")), "隣り合う要素でfを実行した時に常にtrueになるように並び替える."),
-
-
+      
       F1A("List", "reduce<br>(reduceLeft)", List("B >: A"), T("op", "(B, A) => B"), "B", listImg("reduce.svg"), List(dangerT("例外"), infoT("畳み込み")), "先頭から末尾までを順次、<br>opで演算した結果とその次の要素をopで演算する.<br>Nilの場合は例外."),
       F1A("List", "reduceOption<br>(reduceLeftOption)", List("B >: A"), T("op", "(B, A) => B"), "Option[B]", listImg("reduceOption.svg"), List(infoT("畳み込み")), "先頭から末尾までを順次、<br>opで演算した結果とその次の要素をopで演算する.<br>Nilの場合はNone."),
       F1A("List", "reduceRight", List("B >: A"), T("op", "(B, A) => B"), "B", listImg("reduceRight.svg"), List(dangerT("例外"), infoT("畳み込み")), "末尾から先頭までを順次、<br>opで演算した結果とその前の要素をopで演算する.<br>Nilの場合は例外."),
@@ -103,6 +119,7 @@ object Data {
         "B", listImg("foldRight.svg"), List(infoT("畳み込み")), "末尾から先頭までを順次、<br>opで演算した結果とその次の要素をopで演算する.<br>ただし末尾値にはzを利用."),
       FI1A("List", "sum", List("B >: A"), T("num", "Numeric[B]"), "B", listImg("sum.svg"), List(infoT("畳み込み")), "合計値.<br>Nilの場合は0."),
 
+      F1A("List", "isDefinedAt", Nil, T("x", "Int"), "Boolean", listImg("isDefinedAt.svg"), List(infoT("存在確認")), "n番目の要素があればtrue."),
       F1A("List", "contains", List("A1 >: A"), T("elem", "A1"), "Boolean", listImg("contains.svg"), List(infoT("存在確認")), "elemが存在すればtrue."),
       F1A("List", "exists", Nil, T("p", "A => Boolean"), "Boolean", listImg("exists.svg"), List(infoT("存在確認")), "pがtrueになる要素が存在すればtrue."),
       F1A("List", "forall", Nil, T("p", "A => Boolean"), "Boolean", listImg("forall.svg"), List(infoT("全要素確認")), "pがtrueになる要素のみであればtrue.<br>Nilの場合はtrue."),
@@ -128,8 +145,20 @@ object Data {
         List(ArgsInfo(List(T("f", "A => B")), false),
           ArgsInfo(List(T("ord", "Ordering[B]")), false)),
         "Option[B]", listImg("maxByOption.svg"), List(infoT("最大値"), infoT("1つ取得")), "最大値.<br>Nilの場合はNone."),
-      
+
+      F1A("List", "grouped", Nil, T("size", "Int"), "Iterator[A]", listImg("grouped.svg"), List(infoT("グループ化")), "size個ずつに分ける.<br>最後は端数になりえる."),
+      F1A("List", "groupBy", List("K"), T("f", "A => K"), "Map[K, List[A]]", listImg("groupBy.svg"), List(infoT("グループ化")), "fを適用した結果をキーとしたMapを作成.<br>同じキーになる要素を集めたList値を保持."),
+      FunctionInfo("List", "groupMap", List("K", "B"),
+        List(ArgsInfo(List(T("key", "A => K")), false),
+          ArgsInfo(List(T("f", "A => B")), false)), 
+        "Map[K, List[B]]", listImg("groupMap.svg"), List(infoT("グループ化")), "groupByの結果の値(Mapのvalue)にfを適用したものを返す."),
+      FunctionInfo("List", "groupMapReduce", List("K", "B"),
+        List(ArgsInfo(List(T("key", "A => K")), false),
+          ArgsInfo(List(T("f", "A => B")), false),
+          ArgsInfo(List(T("reduce", "(B, B) => B")), false)
+        ),
+        "Map[K, B]", listImg("groupMapReduce.svg"), List(infoT("グループ化")), "groupMapの結果の値(Mapのvalue)をreduceしたものを返す."),
+
     )
   }
-
 }
