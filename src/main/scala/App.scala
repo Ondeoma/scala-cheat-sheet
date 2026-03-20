@@ -4,9 +4,7 @@ import renders.Render
 
 @main
 def App(): Unit = {
-  
-  dom.document.querySelector("#app").innerHTML = {
-    Render.all(Data.functions)
-  } 
-    
+  val (html, fs) = Render.all(Data.functions)
+  dom.document.querySelector("#app").innerHTML = html
+  fs.foreach(_())
 }

@@ -9,57 +9,101 @@ h1 {
 
 a {
   color: #2ae8ff;
+  
+  &.anchor {
+    padding-left: 10px;
+    text-decoration: none;
+  }
 }
 
-table {
+input, select {
+  font-size: 1.1rem;
+}
+
+.filter {
+  color: #c9d8ff;
+  
+  th {
+    text-wrap: nowrap;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  td {
+    padding-left: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 15px;
+    max-width: 400px;
+
+    span {
+      text-wrap: nowrap;
+    }
+    
+    input[type="text"], select {
+      min-width: 200px;
+      padding: 5px;
+      box-sizing: content-box;
+    }
+    
+  }
+}
+
+.functions-table {
   border-collapse: collapse;
   border-spacing: 0;
+
+  .unmatched {
+    display: none;
+  }
   
   th, td {
     border: 1px solid gray;
     padding: 10px;
     text-align: center;
-    
+
     &.description {
       text-align: left;
     }
   }
-  
+
   th {
     background-color: #332289;
   }
-  
+
   img {
     padding: 10px;
     max-height: 250px;
-    max-width: 400px;
+    max-width: 370px;
   }
-  
+
   .typArgs {
     white-space: nowrap;
   }
 
   .args {
+    text-align: left;
     white-space: nowrap;
   }
-  
+
   .implicit {
     color: #b0ae6e;
   }
-  
+
   .tags {
-    
-    div{
+
+    div {
       display: flex;
+      flex-wrap: wrap;
       gap: 10px;
     }
-    
+
     .tag {
       display: inline-block;
-      font-size: 0.8em;
+      font-size: 0.8rem;
       padding: 4px;
       border-radius: 10px;
-      
+
       &.info {
         background-color: #036640;
       }
@@ -67,13 +111,13 @@ table {
       &.warn {
         background-color: #897f00;
       }
-      
+
       &.danger {
         background-color: #9d0d31;
       }
-      
+
     }
-    
+
   }
-  
+
 }
