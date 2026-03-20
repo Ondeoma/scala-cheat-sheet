@@ -40,6 +40,7 @@ object Render {
          |<h3 id="functions-list">List[A]</h3>
          |$listFunctionSearch
          |$listFunctionTable
+         |<div class="vh100"></div>
          |""".stripMargin
 
     val onLoadedFunctions: List[() => Unit] = List(
@@ -111,7 +112,7 @@ object Render {
   def renderFunctionsTable(g: FG,
                            fis: List[FunctionInfo]): String = {
     val cls = getFunctionsTableCls(g)
-    val rows = fis.zipWithIndex.map((fi, i) => renderFunctionRow(g, fi, i)).mkString("")
+    val rows = fis.map(fi => renderFunctionRow(g, fi, fis)).mkString("")
     // language=html
     s"""
        |<table class="functions-table $cls">
@@ -135,8 +136,10 @@ object Render {
 
   def renderFunctionRow(g: FG,
                         fi: FunctionInfo,
-                        i: Int): String = {
-    val id = s"function-${g}-${esc(fi.name)}-$i"
+                        allFi: List[FunctionInfo]): String = {
+    val sameNames = allFi.filter(_.name == fi.name)
+    val idx = sameNames.indexOf(fi)
+    val id = s"function-${g}-${esc(fi.name)}-${idx}"
     // language=html
     s"""
        |<tr>
