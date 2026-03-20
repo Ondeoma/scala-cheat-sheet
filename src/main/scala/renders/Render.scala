@@ -45,7 +45,8 @@ object Render {
 
     val onLoadedFunctions: List[() => Unit] = List(
       () => addEventsFunctionsFilter(FG.List),
-      addAnchorLinkEvents
+      addAnchorLinkEvents,
+      goToAnchor
     )
 
     (html, onLoadedFunctions)
@@ -186,6 +187,10 @@ object Render {
         }, 100)
       })
     }
+  }
+
+  def goToAnchor(): Unit = {
+    document.location.hash = document.location.hash 
   }
 
 }
