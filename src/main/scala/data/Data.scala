@@ -42,6 +42,8 @@ object Data {
 
       FNonA("List", "tail", Nil, "List[A]", listImg("tail.svg"), List(dangerT("例外"), infoT("部分取得")), "先頭以外を取得.<br>Nilの場合は例外."),
       FNonA("List", "tails", Nil, "Iterator[List[A]]", listImg("tails.svg"), List(infoT("部分取得")), "元のListからNilになるまで先頭要素を0~n個削る過程のList群の取得."),
+      FNonA("List", "init", Nil, "List[A]", listImg("init.svg"), List(dangerT("例外"), infoT("部分取得")), "末尾以外を取得.<br>Nilの場合は例外."),
+      FNonA("List", "inits", Nil, "Iterator[List[A]]", listImg("inits.svg"), List(infoT("部分取得")), "元のListからNilになるまで末尾要素を0~n個削る過程のList群の取得."),
 
       F1A("List", "take", Nil, T("n", "Int"), "List[A]", listImg("take.svg"), List(infoT("部分取得")), "先頭からn件取得.<br>不足時は存在するところまで取得."),
       F1A("List", "takeRight", Nil, T("n", "Int"), "List[A]", listImg("takeRight.svg"), List(infoT("部分取得")), "末尾からn件取得.<br>不足時は存在するところまで取得.<br>新Listの要素は逆順に'ならない'."),
@@ -59,6 +61,9 @@ object Data {
       F1A("List", "filter", Nil, T("p", "A => Boolean"), "List[A]", listImg("filter.svg"), List(infoT("絞り込み")), "pがtrueになる要素を取得."),
       F1A("List", "filterNot", Nil, T("p", "A => Boolean"), "List[A]", listImg("filterNot.svg"), List(infoT("絞り込み")), "pがfalseになる要素を取得."),
 
+      F1A("List", "diff", List("B >: A"), T("that", "Seq[B]"), "List[A]", listImg("diff.svg"), List(infoT("絞り込み")), "引数の要素分を削った部分.<br>回数も考慮."),
+      F1A("List", "intersect", List("B >: A"), T("that", "Seq[B]"), "List[A]", listImg("intersect.svg"), List(infoT("絞り込み")), "引数の要素と共通している部分.<br>回数も考慮."),
+      
       FNonA("List", "distinct", Nil, "List[A]", listImg("distinct.svg"), List(infoT("絞り込み"), infoT("重複排除")), "重複を排除したListを取得.<br>重複分は先頭に近い方を維持."),
       F1A("List", "distinctBy", List("B"), T("f", "A => B"), "List[A]", listImg("distinctBy.svg"), List(infoT("絞り込み"), infoT("重複排除")), "fで変換した結果の重複を排除したListを取得.<br>重複分は先頭に近い方を維持."),
 
@@ -95,6 +100,7 @@ object Data {
 
       F1A("List", "zip", List("B"), T("that", "IterableOnce[B]"), "List[(A, B)]", listImg("zip.svg"), List(infoT("結合")), "thatコレクションと同順に1つずつタプル化.<br>少ない側の要素数に揃う."),
       FNonA("List", "zipWithIndex", Nil, "List[(A, Int)]", listImg("zipWithIndex.svg"), List(infoT("結合")), "Indexとタプル化."),
+      FNonA("List", "indices", Nil, "List[Int]", listImg("indices.svg"), List(infoT("変換"), infoT("添字")), "全要素のIndexをListとして取得."),
       FI1A("List", "unzip", List("A1","A2"), T("asPair", "A = (A1, A2)"), "(List[A1], List[A2])", listImg("unzip.svg"), List(infoT("分解")), "主に2要素タプルのListを分割した2つのListを取得."),
       
       FNonA("List", "reverse", Nil, "List[A]", listImg("reverse.svg"), List(infoT("並び替え")), "順番を反転する."),
@@ -119,6 +125,19 @@ object Data {
         "B", listImg("foldRight.svg"), List(infoT("畳み込み")), "末尾から先頭までを順次、<br>opで演算した結果とその次の要素をopで演算する.<br>ただし末尾値にはzを利用."),
       FI1A("List", "sum", List("B >: A"), T("num", "Numeric[B]"), "B", listImg("sum.svg"), List(infoT("畳み込み")), "合計値.<br>Nilの場合は0."),
 
+      FunctionInfo("List", "scan<br>(scanLeft)", List("B >: A"),
+        List(ArgsInfo(List(T("z", "B")), false),
+          ArgsInfo(List(T("op", "(B, A) => B")), false)),
+        "List[B]", listImg("scan.svg"), List(infoT("畳み込み")), "fold(foldLeft)の計算過程をListとして取得."),
+      FunctionInfo("List", "scan", List("B >: A"),
+        List(ArgsInfo(List(T("z", "B")), false),
+          ArgsInfo(List(T("op", "(B, A) => B")), false)),
+        "List[B]", listImg("scanRight.svg"), List(infoT("畳み込み")), "foldRightの計算過程をListとして取得."),
+      
+      FNonA("List", "mkString", Nil, "String", listImg("mkString.svg"), List(infoT("文字列作成")), "全要素を(toStringした結果を)結合した文字列."),
+      F1A("List", "mkString", Nil, T("sep", "String"), "String", listImg("mkString(1).svg"), List(infoT("文字列作成")), "全要素を(toStringした結果を)seqで区切り結合した文字列."),
+      FNA("List", "mkString", Nil, List(T("start", "String"), T("sep", "String"), T("end", "String")), "String", listImg("mkString(3).svg"), List(infoT("文字列作成")), "全要素を(toStringした結果を)seqで区切り結合した文字列から、先頭にstart 末尾にendを付与したもの."),
+      
       F1A("List", "isDefinedAt", Nil, T("x", "Int"), "Boolean", listImg("isDefinedAt.svg"), List(infoT("存在確認")), "n番目の要素があればtrue."),
       F1A("List", "contains", List("A1 >: A"), T("elem", "A1"), "Boolean", listImg("contains.svg"), List(infoT("存在確認")), "elemが存在すればtrue."),
       F1A("List", "exists", Nil, T("p", "A => Boolean"), "Boolean", listImg("exists.svg"), List(infoT("存在確認")), "pがtrueになる要素が存在すればtrue."),
