@@ -1,6 +1,7 @@
 # Scala Cheat Sheet
 
-Scalaのチートシートです.
+Scalaのチートシート(リファレンスに近いものかもしれない)です.  
+現状高カインド型のメソッドを中心に図で説明しようと試みています.
 
 ## Dependencies
 
@@ -8,6 +9,9 @@ Scalaのチートシートです.
 * Node.js 24系
 
 ## 起動
+
+Scala.jsを連続的にビルドしつつ、  
+Viteでホスティングするのが良さそうです.
 
 ### Scala.js
 
@@ -34,6 +38,6 @@ cf. [Vite](https://ja.vite.dev/)
 
 ## その他
 
-`resources/images.excalidraw`にて[Excalidraw](https://github.com/excalidraw/excalidraw)で作った図を置いています。
+`resources/*.excalidraw`にて`Excalidraw`で作った図データを置いています。
 
 cf. [Excalidraw](https://github.com/excalidraw/excalidraw)
