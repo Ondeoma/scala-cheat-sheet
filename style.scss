@@ -20,13 +20,14 @@ input, select {
   font-size: 1.1rem;
 }
 
-.filter {
+.filter, .select-col {
   color: #c9d8ff;
   
   th {
     text-wrap: nowrap;
     text-align: left;
     vertical-align: top;
+    width: 80px;
   }
 
   td {
@@ -34,7 +35,7 @@ input, select {
     display: flex;
     flex-wrap: wrap;
     column-gap: 15px;
-    max-width: 400px;
+    max-width: 550px;
 
     span {
       text-wrap: nowrap;
@@ -53,7 +54,7 @@ input, select {
   border-collapse: collapse;
   border-spacing: 0;
 
-  .unmatched {
+  .unmatched-row, .unmatched-col {
     display: none;
   }
   

@@ -15,25 +15,45 @@ object Render {
   val filterRtnCls = "rtn"
   val filterTagCls = "tag"
 
+  val functionNameCls = "name"
+  val functionTypArgsCls = "typArgs"
+  val functionArgsCls = "args"
   val functionRtnCls = "rtn"
+  val functionImageCls = "image"
+  val functionDescriptionCls = "description"
+  val functionTagsCls = "tags"
   val functionTagCls = "tag"
+
+  val functionTableCols = List(
+    "名前" -> functionNameCls,
+    "型引数" -> functionTypArgsCls,
+    "引数" -> functionArgsCls,
+    "戻値" -> functionRtnCls,
+    "図" -> functionImageCls,
+    "説明" -> functionDescriptionCls,
+    "キーワード" -> functionTagsCls)
+
   val anchorLinkCls = "anchor"
 
   val esc = HtmlUtil.escapeHtml
 
-  def all(fis: List[FunctionInfo]): (String, List[() => Unit]) = {
-    val listFunctions = fis.filter(_.group == FG.List)
-    val listFunctionTable = renderFunctionsTable(FG.List, listFunctions)
-    val listFunctionSearch = renderFunctionsFilterArea(FG.List, listFunctions)
-    
-    val opFunctions = fis.filter(_.group == FG.Option)
-    val opFunctionTable = renderFunctionsTable(FG.Option, opFunctions)
-    val opFunctionSearch = renderFunctionsFilterArea(FG.Option, opFunctions)
 
-    val etFunctions = fis.filter(_.group == FG.Either)
-    val etFunctionTable = renderFunctionsTable(FG.Either, etFunctions)
-    val etFunctionSearch = renderFunctionsFilterArea(FG.Either, etFunctions)
-    
+  def all(fis: List[FunctionInfo]): (String, List[() => Unit]) = {
+    val listFs = fis.filter(_.group == FG.List)
+    val listFT = renderFunctionsTable(FG.List, listFs)
+    val listFS = renderFunctionsFilterArea(FG.List, listFs)
+    val listSC = renderFunctionsSelectColArea(FG.List)
+
+    val opFs = fis.filter(_.group == FG.Option)
+    val opFT = renderFunctionsTable(FG.Option, opFs)
+    val opFS = renderFunctionsFilterArea(FG.Option, opFs)
+    val opSC = renderFunctionsSelectColArea(FG.Option)
+
+    val etFs = fis.filter(_.group == FG.Either)
+    val etFT = renderFunctionsTable(FG.Either, etFs)
+    val etFS = renderFunctionsFilterArea(FG.Either, etFs)
+    val etSC = renderFunctionsSelectColArea(FG.Either)
+
     // language=html
     val html =
       s"""
@@ -56,21 +76,27 @@ object Render {
          |</div>
          |
          |<h3 id="functions-list">List[A]</h3>
-         |$listFunctionSearch
-         |$listFunctionTable
+         |$listFS
+         |$listSC
+         |$listFT
          |<h3 id="functions-option">Option[A]</h3>
-         |$opFunctionSearch
-         |$opFunctionTable
+         |$opFS
+         |$opSC
+         |$opFT
          |<h3 id="functions-either">Either[L, R]</h3>
-         |$etFunctionSearch
-         |$etFunctionTable
+         |$etFS
+         |$etSC
+         |$etFT
          |<div class="vh100minus200px"></div>
          |""".stripMargin
 
     val onLoadedFunctions: List[() => Unit] = List(
       () => addEventsFunctionsFilter(FG.List),
+      () => addEventsFunctionsSelectCol(FG.List),
       () => addEventsFunctionsFilter(FG.Option),
+      () => addEventsFunctionsSelectCol(FG.Option),
       () => addEventsFunctionsFilter(FG.Either),
+      () => addEventsFunctionsSelectCol(FG.Either),
       addAnchorLinkEvents,
       goToAnchor
     )
@@ -80,6 +106,10 @@ object Render {
 
   def getFunctionsFilterAreaCls(g: FG): String = {
     s"functions-$g-filter"
+  }
+
+  def getFunctionsSelectColAreaCls(g: FG): String = {
+    s"functions-$g-select-col"
   }
 
   def getFunctionsTableCls(g: FG): String = {
@@ -125,7 +155,7 @@ object Render {
   def addEventsFunctionsFilter(g: FG): Unit = {
     val cls = getFunctionsFilterAreaCls(g)
     val tblCls = getFunctionsTableCls(g)
-    val filter = () => Filter.filter(s".$cls", s".$tblCls")
+    val filter = () => Filter.filterRow(s".$cls", s".$tblCls")
     document.querySelector(s".$cls") match {
       case area: HTMLElement =>
         area.querySelector(s".$filterTextCls").addEventListener("input", _ => filter())
@@ -136,23 +166,47 @@ object Render {
     }
   }
 
+  def renderFunctionsSelectColArea(g: FG): String = {
+    val cls = getFunctionsSelectColAreaCls(g)
+    val checks = functionTableCols.map { (name, cls) =>
+      val uid = s"""$g-select-col-$cls"""
+      s"""<span><input id="$uid" type="checkbox" data-name="$cls" checked /><label for="$uid">$name</label></span>"""
+    }.mkString
+    // language=html
+    s"""
+       |<table class="select-col $cls">
+       |  <tr>
+       |    <th>表示項目</td>
+       |    <td>
+       |      $checks
+       |    </td>
+       |  </tr>
+       |</table>
+       |""".stripMargin
+  }
+
+  def addEventsFunctionsSelectCol(g: FG): Unit = {
+    val cls = getFunctionsSelectColAreaCls(g)
+    val tblCls = getFunctionsTableCls(g)
+    val filter = () => Filter.filterCol(s".$cls", s".$tblCls")
+    document.querySelector(s".$cls") match {
+      case area: HTMLElement =>
+        area.querySelectorAll(s"input[type='checkbox']") 
+          .foreach { ch => ch.addEventListener("input", _ => filter()) }
+      case _ => ()
+    }
+  }
+
   def renderFunctionsTable(g: FG,
                            fis: List[FunctionInfo]): String = {
     val cls = getFunctionsTableCls(g)
     val rows = fis.map(fi => renderFunctionRow(g, fi, fis)).mkString("")
+    val ths = functionTableCols.map { (name, cls) => s"""<th class="$cls">$name</th>""" }.mkString("")
     // language=html
     s"""
        |<table class="functions-table $cls">
        |  <thead>
-       |    <tr>
-       |      <th>名前</th>
-       |      <th>型引数</th>
-       |      <th>引数</th>
-       |      <th>戻値</th>
-       |      <th>図</th>
-       |      <th>説明</th>
-       |      <th>キーワード</th>
-       |    </tr>
+       |    <tr>$ths</tr>
        |  </thead>
        |  <tbody>
        |    $rows
@@ -170,13 +224,13 @@ object Render {
     // language=html
     s"""
        |<tr>
-       |  <td id="$id" class="name">${fi.name}<a class="$anchorLinkCls" href="#$id">⚓</a></td>
-       |  <td class="typArgs">${renderTypArgs(fi.typArgs)}</td>
-       |  <td class="args">${renderArgs(fi.args)}</td>
+       |  <td id="$id" class="$functionNameCls">${fi.name}<a class="$anchorLinkCls" href="#$id">⚓</a></td>
+       |  <td class="$functionTypArgsCls">${renderTypArgs(fi.typArgs)}</td>
+       |  <td class="$functionArgsCls">${renderArgs(fi.args)}</td>
        |  <td class="$functionRtnCls">${fi.rtn}</td>
-       |  <td class="image">${renderImg(fi.image)}</td>
-       |  <td class="description">${fi.description}</td>
-       |  <td class="tags">${renderTags(fi.tags)}</td>
+       |  <td class="$functionImageCls">${renderImg(fi.image)}</td>
+       |  <td class="$functionDescriptionCls">${fi.description}</td>
+       |  <td class="$functionTagsCls">${renderTags(fi.tags)}</td>
        |</tr>
        |""".stripMargin
   }
@@ -216,7 +270,7 @@ object Render {
   }
 
   def goToAnchor(): Unit = {
-    document.location.hash = document.location.hash 
+    document.location.hash = document.location.hash
   }
 
 }
