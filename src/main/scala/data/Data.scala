@@ -239,28 +239,36 @@ object Data {
       F1A(G.Option, "toLeft", List("X"), T("right", "=> X"), "Either[A, X]", opImg("toLeft.svg"), List(infoT("Either変換")), "Someならそのまま値を引き継いだLeftに.<br>Noneであれば引数rightを含むRightに."),
     )
 
+    def etImg(s: String) = s"${Render.imgPath}/functions/either/$s"
 
     val forEither = List(
-      // flatMap
-      // flatten
-      // fold
-      // filterOrElse
-      // map
-      // getOrElse
-      // orElse
-      // isRight
-      // isLeft
-      // toOption
-      // toTry
-      // foreach
-      // joinLeft
-      // joinRight
-      // merge
-      // swap
-      // withLeft
+      F1A(G.Either, "getOrElse", List("R1 >: R"), T("or", "=> R1"), "R1", etImg("getOrElse.svg"), List(infoT("値取得")), "Rightの中身を取得.<br>Leftの場合はor."),
+      F1A(G.Either, "orElse", List("L1 >: L", "R1 >: R"), T("or", "=> Either[L1, R1]"), "Either[L1, R1]", etImg("orElse.svg"), List(infoT("Left変換")), "Rightの場合は変化なし.<br>Leftの場合はor."),
+      FNA(G.Either, "fold", List("C"),List(T("fa", "L => C"), T("fb", "R => C")), "C", etImg("fold.svg"), List(infoT("畳み込み")), "Rightの場合は中身にfbを適用した値.<br>Leftの場合は中身をfaで変換した値."),
+      
+      FNonA(G.Either, "merge", Nil, "L | R", etImg("merge.svg"), List(infoT("値取得")), "RightでもLeftでも中身の値を取得."),
+      FNonA(G.Either, "swap", Nil, "Either[R, L]", etImg("swap.svg"), List(infoT("型変換")), "RightならLeftに, LeftならRightにする."),
+      
+      FNonA(G.Either, "isRight", Nil, "Boolean", etImg("isRight.svg"), List(infoT("状況")), "Rightならtrue.<br>Leftならfalse."),
+      FNonA(G.Either, "isLeft", Nil, "Boolean", etImg("isLeft.svg"), List(infoT("状況")), "Rightならfalse.<br>Leftならtrue."),
+      
+      F1A(G.Either, "contains", List("R1 >: R"), T("elem", "R1"), "Boolean", etImg("contains.svg"), List(infoT("存在")), "Rightであり中身がelemと一致すればtrue.<br>それ以外はfalse."),
+      F1A(G.Either, "exists", Nil, T("p", "R => Boolean"), "Boolean", etImg("exists.svg"), List(infoT("存在")), "Rightであり中身にpを適用した結果がtrueになればtrue.<br>それ以外はfalse."),
+      
+      FNA(G.Either, "filterOrElse", List("L1 >: L"), List(T("p", "A => Boolean"), T("zero", "=> L1")), "Either[R, L1]", etImg("filterOrElse.svg"), List(infoT("フィルタ")), "Rightであり中身にpを適用した結果がtrueであれば変化なし.<br>Rightであり中身にpを適用した結果がfalseであればLeftにzeroを入れたもの.<br>Leftであれば変化なし."),
+      
+      F1A(G.Either, "foreach", List("U"), T("f", "R => U"), "Unit", etImg("foreach.svg"), List(infoT("作用")), "Rightなら中身でfを実行."),
+      F1A(G.Either, "map", List("R1"), T("f", "R => R1"), "Either[L, R1]", etImg("map.svg"), List(infoT("変換")), "Rightなら中身をfで変換.<br>Leftは変化なし."),
+      FI1A(G.Either, "flatten", List("L1 <: L", "R1"), T("ev", "R <:< Either[L1, R1]"), "Either[L1, R1]", etImg("flatten.svg"), List(infoT("変換")), "Either[L, Either[L1, R1]]をEither[L1, R1]に変換.<br>内外共にRightならRightに.<br>外Right, 内LeftならLeftに.<br>外Leftなら変化無し."),
+      F1A(G.Either, "flatMap", List("L1 <: L", "R1"), T("f", "R => Either[L1, R1]"), "Either[L1, R1]", etImg("flatMap.svg"), List(infoT("変換"), infoT("モナド")), "fでmapした後にflatten.<br>fはEither[L1, R1]を返す関数."),
+      
+      FI1A(G.Either, "joinRight", List("L1 <: L", "R1 <: R", "C"),  T("ev", "R1 <:< Either[L1, C]"), "Either[L1, C]", etImg("joinRight.svg"), List(infoT("変換")), "≒ flatten."),
+      FI1A(G.Either, "joinLeft", List("L1 <: L", "R1 <: R", "C"),  T("ev", "L1 <:< Either[C, R1]"), "Either[C, R1]", etImg("joinLeft.svg"), List(infoT("変換")), "Left側をflattenするような形.<br>Rightの時は変化無し."),
+      
+      FNonA(G.Either, "toOption", Nil, "Option[R]", etImg("toOption.svg"), List(infoT("Option変換")), "Rightならそのまま値を引き継いだSomeに.<br>LeftであればNoneに."),
+      FI1A(G.Either, "toTry", Nil, T("ev", "L <:< Throwable"), "Try[R]", etImg("toTry.svg"), List(infoT("Try変換")), "Rightならそのまま値を引き継いだSuccessに.<br>Leftであればそのまま値を引き継いだFailureに.<br>Leftの中身はThrowableである必要があります."),
     )
-
-
+    
     forList ::: forOption ::: forEither
   }
 }

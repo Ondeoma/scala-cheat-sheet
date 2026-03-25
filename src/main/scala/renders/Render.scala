@@ -29,6 +29,10 @@ object Render {
     val opFunctions = fis.filter(_.group == FG.Option)
     val opFunctionTable = renderFunctionsTable(FG.Option, opFunctions)
     val opFunctionSearch = renderFunctionsFilterArea(FG.Option, opFunctions)
+
+    val etFunctions = fis.filter(_.group == FG.Either)
+    val etFunctionTable = renderFunctionsTable(FG.Either, etFunctions)
+    val etFunctionSearch = renderFunctionsFilterArea(FG.Either, etFunctions)
     
     // language=html
     val html =
@@ -47,6 +51,7 @@ object Render {
          |<ul>
          |<li><a href="#functions-list">List</a></li>
          |<li><a href="#functions-option">Option</a></li>
+         |<li><a href="#functions-either">Either</a></li>
          |</ul>
          |</div>
          |
@@ -56,12 +61,16 @@ object Render {
          |<h3 id="functions-option">Option[A]</h3>
          |$opFunctionSearch
          |$opFunctionTable
+         |<h3 id="functions-either">Either[L, R]</h3>
+         |$etFunctionSearch
+         |$etFunctionTable
          |<div class="vh100minus200px"></div>
          |""".stripMargin
 
     val onLoadedFunctions: List[() => Unit] = List(
       () => addEventsFunctionsFilter(FG.List),
       () => addEventsFunctionsFilter(FG.Option),
+      () => addEventsFunctionsFilter(FG.Either),
       addAnchorLinkEvents,
       goToAnchor
     )
