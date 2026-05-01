@@ -1,5 +1,7 @@
 # Scala Cheat Sheet
 
+https://ondeoma.github.io/scala-cheat-sheet/
+
 Scalaのチートシート(リファレンスに近いものかもしれない)です.  
 現状高カインド型のメソッドを中心に図で説明しようと試みています.
 
